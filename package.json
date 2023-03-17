@@ -1,0 +1,20 @@
+{
+  "name": "@qiidb/meta",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build": "node ./build",
+    "clean": "rm -rf ./site/.asset-cache",
+    "start": "cd ./site && rake run",
+    "predeploy": "npm run clean",
+    "deploy": "cd ./site && rake deploy"
+  },
+  "author": "Ourai Lin <ourairyu@gmail.com> (https://ourai.ws/)",
+  "license": "ISC",
+  "devDependencies": {
+    "handie": "^1.0.8",
+    "js-yaml": "^3.14.0"
+  }
+}

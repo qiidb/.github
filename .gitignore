@@ -8,10 +8,10 @@ node_modules/
 
 _site/
 
-*.log
+site/_data/api/
+site/_assets/images/api/
+site/_api/
 
-# Hexo
-Thumbs.db
-db.json
-public/
-.deploy*/
+site/_data/cookbook/
+site/_assets/images/cookbook/
+site/_cookbook/

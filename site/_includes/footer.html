@@ -1,0 +1,17 @@
+<footer class="Page-footer Footer">
+  <div class="{% if site.data.repos[page.repo] %}container-fluid{% else %}container{% endif %}">
+    <div class="Footer-description">
+      <!-- 重要链接 -->
+      <nav class="Footer-navs">
+        <ul>
+          <li><a href="https://ourai.github.io/knosys/" target="_blank" rel="external nofollow"><span>KnoSys</span></a></li>
+        </ul>
+      </nav>
+      <!-- 网站版权 -->
+      <div class="Footer-copyright">
+        <p>&copy; 2021-{{ site.time | date: "%Y" }} <a href="{{ '/' | prepend: site.url }}">{{ site.title }}</a> 版权所有</p>
+        <p>由 <a href="https://linxoid.com/ourai/" target="_blank" rel="external nofollow">欧雷</a> 用 ♥ 设计与开发</p>
+      </div>
+    </div>
+  </div>
+</footer>
