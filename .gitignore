@@ -6,12 +6,6 @@ node_modules/
 .asset-cache/
 .sass-cache/
 
-_site/
-
-site/_data/api/
-site/_assets/images/api/
-site/_api/
-
-site/_data/cookbook/
-site/_assets/images/cookbook/
-site/_cookbook/
+site/_data/knosys/
+site/_knosys/
+site/_site/

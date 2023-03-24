@@ -1,0 +1,13 @@
+{
+  "command": "./build",
+  "site": {
+    "default": {
+      "alias": "qiidb",
+      "source": "./site",
+      "data": "./manual",
+      "git": {
+        "url": "https://github.com/qiidb/qiidb.github.io.git"
+      }
+    }
+  }
+}

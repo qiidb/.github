@@ -5,11 +5,12 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build": "node ./build",
+    "copy": "node build site copy",
+    "build": "node build generate",
     "clean": "rm -rf ./site/.asset-cache",
-    "start": "cd ./site && rake run",
+    "start": "node build site serve",
     "predeploy": "npm run clean",
-    "deploy": "cd ./site && rake deploy"
+    "deploy": "node build site deploy"
   },
   "author": "Ourai Lin <ourairyu@gmail.com> (https://ourai.ws/)",
   "license": "ISC",

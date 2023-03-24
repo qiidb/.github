@@ -1,16 +1,14 @@
 title: QiiDB
-description:
+description: 基于文件存储的开放数据集合
 keywords:
-tagline: 基于文件存储的开放数据集合
+
+port: 10224
 
 collections:
+  knosys:
+    output: true
+    permalink: /:path/
   pages:
-    output: true
-    permalink: /:path/
-  cookbook:
-    output: true
-    permalink: /:path/
-  api:
     output: true
     permalink: /:path/
 
@@ -59,24 +57,24 @@ defaults:
   - scope:
       path: ""
     values:
-      layout: default
+      layout: ksio/default
   # 页面
   - scope:
       path: ""
       type: pages
     values:
-      layout: page
+      layout: ksio/page
   # 文章
   - scope:
       path: ""
       type: posts
     values:
-      layout: post
+      layout: ksio/post
       css:
-        - pages/post
+        - ksio/pages/post
       js:
-        - initializers/time
-        - initializers/lazyload
+        - ksio/initializers/time
+        - ksio/initializers/lazyload
       author:
         name: 欧雷
         email: ourairyu@gmail.com
@@ -86,28 +84,16 @@ defaults:
       siblings: true
   - scope:
       path: ""
-      type: cookbook
+      type: knosys
     values:
-      layout: guide
+      layout: ksio/doc
       css:
-        - pages/post
-        - pages/doc
+        - ksio/pages/post
+        - ksio/pages/doc
       js:
-        - initializers/time
-        - initializers/lazyload
+        - ksio/initializers/time
+        - ksio/initializers/lazyload
       repo: cookbook
-  - scope:
-      path: ""
-      type: api
-    values:
-      layout: guide
-      css:
-        - pages/post
-        - pages/doc
-      js:
-        - initializers/time
-        - initializers/lazyload
-      repo: api
 
 
 
@@ -149,7 +135,31 @@ github:
 # Customized configurations
 # =====
 
-# Modules
-module:
-  comment: false
-  share: true
+ksio:
+  meta:
+    url: https://qiidb.github.io
+  brand:
+    color: "#0871ab"
+  copyright:
+    period:
+      start: 2021
+    fragments: >
+      <p>由 <a href="https://linxoid.com/ourai/?utm_source=https://qiidb.github.io&utm_medium=common-footer" target="_blank" rel="external nofollow">欧雷</a> 用 ♥ 设计与开发</p>
+  header:
+    navs:
+      - text: 指南
+        url: /guides/intro/
+      - text: 关于
+        children:
+          - text: 发起人
+            url: https://linxoid.com/ourai/
+          - text: GitHub
+            url: https://github.com/qiidb
+    navbar:
+      placement: right
+  footer:
+    links:
+      - text: KnoSys
+        url: https://knosysio.github.io/
+  social:
+    share: true
