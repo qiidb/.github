@@ -87,6 +87,11 @@ defaults:
       path: ""
       type: knosys
     values:
+      layout: ksio/page
+  - scope:
+      path: "cookbook"
+      type: knosys
+    values:
       layout: ksio/doc
       css:
         - ksio/pages/post

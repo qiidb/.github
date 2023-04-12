@@ -8,6 +8,7 @@ node_modules/
 
 site/*/*/ksio/
 site/*/_assets/*/ksio/
+site/*/_assets/*/knosys/
 site/*/_data/knosys/
 site/*/_knosys/
 site/*/_site/
