@@ -150,7 +150,7 @@ ksio:
   header:
     navs:
       - text: 指南
-        url: /guides/intro/
+        url: /meta/guides/intro/
       - text: 关于
         children:
           - text: 发起人
