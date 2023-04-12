@@ -4,6 +4,7 @@ keywords:
 tagline: 基于文件存储的开放数据集合
 
 port: 10224
+baseurl: /zh
 
 collections:
   knosys:

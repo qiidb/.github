@@ -2,11 +2,11 @@
   "command": "./build",
   "site": {
     "default": {
-      "alias": "qiidb",
-      "source": "./site",
+      "alias": "qiidb-zh",
+      "source": "./site/zh",
       "data": "./manual",
       "git": {
-        "url": "https://github.com/qiidb/qiidb.github.io.git"
+        "url": "https://github.com/qiidb/zh.git"
       }
     }
   }
