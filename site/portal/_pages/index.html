@@ -1,0 +1,19 @@
+---
+layout: ksio/default
+css:
+  - pages/index
+permalink: index.html
+---
+
+{% include ksio/header.html %}
+<main class="Page-content">
+  <article class="Homepage">
+    <header class="Homepage-header">
+      <h1>{{ site.title }}</h1>
+      <p class="Homepage-slogan">{{ site.tagline | default: site.description }}</p>
+      <p class="Homepage-notice">Sorry, only Chinese is supported for now.</p>
+      <p class="GetStarted"><a href="{{ '/zh/' | prepend: site.baseurl | prepend: site.url }}">开始使用<i class="fa fa-long-arrow-right"></i></a></p>
+    </header>
+  </article>
+</main>
+{% include footer.html %}

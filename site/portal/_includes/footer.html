@@ -1,0 +1,16 @@
+<footer class="Page-footer Footer">
+  <div class="{% if site.data.local.repos[page.repo] %}container-fluid{% else %}container{% endif %}">
+    {% assign utm_params = "utm_source=" | append: site.ksio.meta.url | append: "&utm_medium=common-footer" %}
+    <div class="Footer-description">
+      {% if site.ksio.footer.links and site.ksio.footer.links.size > 0 %}
+        <nav class="Footer-navs">
+          <ul>{% for link in site.ksio.footer.links %}<li>{% include ksio/components/link.html link=link wrap=true utm=utm_params %}</li>{% endfor %}</ul>
+        </nav>
+      {% endif %}
+      <div class="Footer-copyright">
+        <p>&copy; 2021-{{ site.time | date: "%Y" }} <a href="https://linxoid.com/ourai/?{{ utm_params }}" target="_blank" rel="external nofollow">Ourai L.</a></p>
+        <p>Designed & developed with ♥ by <a href="https://linxoid.com/ourai/?{{ utm_params }}" target="_blank" rel="external nofollow">Ourai L.</a></p>
+      </div>
+    </div>
+  </div>
+</footer>

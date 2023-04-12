@@ -1,15 +1,11 @@
 title: QiiDB
-description: 基于文件存储的开放数据集合
+description: Free & Open File-based Database
 keywords:
-tagline: 基于文件存储的开放数据集合
+tagline: Free & Open File-based Database
 
 port: 10224
-baseurl: /zh
 
 collections:
-  knosys:
-    output: true
-    permalink: /:path/
   pages:
     output: true
     permalink: /:path/
@@ -65,36 +61,6 @@ defaults:
       type: pages
     values:
       layout: ksio/page
-  # 文章
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: ksio/post
-      css:
-        - ksio/pages/post
-      js:
-        - ksio/initializers/time
-        - ksio/initializers/lazyload
-      author:
-        name: 欧雷
-        email: ourairyu@gmail.com
-        uri: https://ourai.ws/
-        slug: ourai
-        twitter: ourairyu
-      siblings: true
-  - scope:
-      path: ""
-      type: knosys
-    values:
-      layout: ksio/doc
-      css:
-        - ksio/pages/post
-        - ksio/pages/doc
-      js:
-        - ksio/initializers/time
-        - ksio/initializers/lazyload
-      repo: cookbook
 
 
 
@@ -138,28 +104,17 @@ github:
 
 ksio:
   meta:
-    url: https://qiidb.github.io/zh
+    url: https://qiidb.github.io
   brand:
     color: "#0871ab"
-  copyright:
-    period:
-      start: 2021
-    provider: false
-    fragments: >
-      <p>由 <a href="https://linxoid.com/ourai/?utm_source=https://qiidb.github.io/zh&utm_medium=common-footer" target="_blank" rel="external nofollow">欧雷</a> 用 ♥ 设计与开发</p>
   header:
     navs:
-      - text: 指南
-        url: /guides/intro/
-      - text: 关于
-        children:
-          - text: 发起人
-            url: https://linxoid.com/ourai/
-          - text: GitHub
-            url: https://github.com/qiidb
+      - text: GitHub
+        url: https://github.com/qiidb
     navbar:
       placement: right
   footer:
+    partial: footer.html
     links:
       - text: KnoSys
         url: https://knosysio.github.io/

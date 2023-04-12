@@ -8,6 +8,13 @@
       "git": {
         "url": "https://github.com/qiidb/zh.git"
       }
+    },
+    "portal": {
+      "alias": "qiidb",
+      "source": "./site/portal",
+      "git": {
+        "url": "https://github.com/qiidb/qiidb.github.io.git"
+      }
     }
   }
 }

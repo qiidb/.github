@@ -6,6 +6,8 @@ node_modules/
 .asset-cache/
 .sass-cache/
 
+site/*/*/ksio/
+site/*/_assets/*/ksio/
 site/*/_data/knosys/
 site/*/_knosys/
 site/*/_site/
