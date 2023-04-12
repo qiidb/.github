@@ -1,6 +1,7 @@
 title: QiiDB
 description: 基于文件存储的开放数据集合
 keywords:
+tagline: 基于文件存储的开放数据集合
 
 port: 10224
 
@@ -38,7 +39,6 @@ gems:
   - jekyll-feed
   - jekyll-contentblocks
   - jekyll-sitemap
-  - jekyll-seo-tag
   - jekyll/tagging
   - jekyll-tagging-related_posts
   - jekyll_version_plugin
@@ -143,6 +143,7 @@ ksio:
   copyright:
     period:
       start: 2021
+    provider: false
     fragments: >
       <p>由 <a href="https://linxoid.com/ourai/?utm_source=https://qiidb.github.io&utm_medium=common-footer" target="_blank" rel="external nofollow">欧雷</a> 用 ♥ 设计与开发</p>
   header:

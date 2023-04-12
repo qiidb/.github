@@ -11,22 +11,22 @@
     <script>
       var dsqjs = new DisqusJS({
           shortname: '{{ disqus_shortname }}',
-          siteName: '{{ site.ourairyu.site.name }}',
+          siteName: '{{ site.title | default: site.name }}',
           identifier: '{{ page.url }}',
           url: 'http://' + location.host + '{{ page.url }}',
           title: '{{ page.title }}',
-          api: '{{ comment_config.api.endpoint }}',
-          apikey: '{{ comment_config.api.key }}',
+          api: '{{ comment_config.proxy.endpoint }}',
+          apikey: '{{ comment_config.proxy.key }}',
           admin: '{{ comment_config.username }}',
-          adminLabel: '鹳狸猿'
+          adminLabel: '{{ comment_config.label | default: "管理员" }}'
       });
     </script>
   {% else %}
     <script>
       var disqus_config = function () {
-        this.page.url = "http://" + location.host + "{{ page.url }}";
-        this.page.identifier = "{{ page.url }}";
-        this.page.title = "{{ page.title }}";
+        this.page.url = 'http://' + location.host + '{{ page.url }}';
+        this.page.identifier = '{{ page.url }}';
+        this.page.title = '{{ page.title }}';
       };
 
       (function() {
