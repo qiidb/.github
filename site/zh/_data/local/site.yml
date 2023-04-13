@@ -1,0 +1,6 @@
+header:
+  navs:
+footer:
+  links:
+    - text: 关于
+      url: /about/

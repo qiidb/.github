@@ -1,0 +1,40 @@
+---
+layout: page
+---
+
+{% assign url_parts = page.url | split: "/" %}
+{% assign entry_meta_collection = url_parts[1] %}
+{% assign entry_meta_id = url_parts[2] %}
+
+{% if url_parts.size >= 4 %}
+  {% assign entry_meta_type = url_parts[3] %}
+  {% assign entry_meta_item = url_parts[4] %}
+{% else %}
+  {% assign entry_meta_type = "entry" %}
+{% endif %}
+
+{% if entry_meta_type == "entry" %}
+  {% if entry_meta_collection == "people" %}
+    {% include entry/person.html entry=entry_meta_id %}
+  {% elsif entry_meta_collection == "groups" %}
+    {% include entry/group.html entry=entry_meta_id %}
+  {% elsif entry_meta_collection == "characters" %}
+    {% include entry/character.html entry=entry_meta_id %}
+  {% else %}
+    {% include entry/main.html collection=entry_meta_collection entry=entry_meta_id %}
+  {% endif %}
+{% elsif entry_meta_type == "episodes" %}
+  {% include entry/episode.html collection=entry_meta_collection entry=entry_meta_id episode=entry_meta_item %}
+{% elsif entry_meta_type == "releases" %}
+  {% include entry/release.html collection=entry_meta_collection entry=entry_meta_id release=entry_meta_item %}
+{% else %}
+  {% if entry_meta_collection == "people" %}
+    {% include entry/person.html entry=entry_meta_id %}
+  {% elsif entry_meta_collection == "groups" %}
+    {% include entry/group.html entry=entry_meta_id %}
+  {% elsif entry_meta_collection == "characters" %}
+    {% include entry/character.html entry=entry_meta_id %}
+  {% else %}
+    {% include entry/main.html collection=entry_meta_collection entry=entry_meta_id %}
+  {% endif %}
+{% endif %}

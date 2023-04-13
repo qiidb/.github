@@ -54,6 +54,8 @@ function getAndCopyItemImages(sourceDir, distDir) {
   return imageData;
 }
 
+const limitCount = -1;
+
 function createGenerator(collectionName, dataSourceRoot, localDataDir, localImageRoot, opts) {
   let localImageDir;
   let resolvedOptions;
@@ -65,6 +67,8 @@ function createGenerator(collectionName, dataSourceRoot, localDataDir, localImag
     localImageDir = localImageRoot ? localImageRoot : '';
     resolvedOptions = opts || {};
   }
+
+  let generatedCount = 0;
 
   const {
     paramPath = 'slug',
@@ -98,6 +102,11 @@ function createGenerator(collectionName, dataSourceRoot, localDataDir, localImag
     const paramArr = paramPath.split('/');
 
     readDirDeeply(dataSourceDir, paramArr, {}, (slug, params) => {
+      // debugging control for Jekyll
+      if (limitCount > -1 && generatedCount >= limitCount) {
+        return;
+      }
+
       const pathFromParams = paramArr.map(paramKey => params[paramKey]).join('/');
       const itemDir = `${dataSourceDir}/${pathFromParams}`;
       const item = readItem(itemDir);
@@ -153,6 +162,8 @@ function createGenerator(collectionName, dataSourceRoot, localDataDir, localImag
       }
 
       readEach(slug, resolvedItem, params, cache, paths);
+
+      generatedCount++;
     });
 
     afterRead(cache);

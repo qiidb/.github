@@ -15,6 +15,7 @@
 
   &--entry &-banner,
   &--person &-banner,
+  &--group &-banner,
   &--character &-banner {
     overflow: hidden;
 
@@ -128,6 +129,22 @@
   }
 
   &--episode {
+    .Video {
+      iframe {
+        width: 100%;
+      }
+
+      &--bilibili iframe {
+        height: 500px;
+      }
+    }
+
+    @media all and (max-width: $screen-xs-max) {
+      .Article-content .Video--bilibili iframe {
+        height: 320px;
+      }
+    }
+
     .Article-footer {
       @media all and (max-width: $screen-sm-max) {
         margin-top: 15px;
@@ -211,6 +228,7 @@
   }
 
   &--person,
+  &--group,
   &--character {
     .Widget--photo {
       img {
@@ -221,6 +239,7 @@
   }
 
   &--person &-banner,
+  &--group &-banner,
   &--character &-banner {
     position: relative;
 
@@ -252,6 +271,39 @@
 
       &-tag + &-tag {
         margin-left: .5em;
+      }
+    }
+  }
+
+  &--release {
+    .ReleaseWork {
+      position: relative;
+      min-height: 100px;
+      padding-left: 100px !important;
+
+      &-cover {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 70px;
+
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          border-radius: 4px;
+        }
+      }
+
+      &-title {
+        margin-bottom: 0 !important;
+        font-size: 16px !important;
+        line-height: 1.3;
+      }
+
+      &-description {
+        margin-top: 6px;
+        font-size: 14px;
       }
     }
   }
@@ -375,6 +427,7 @@
   }
 
   &-episodes,
+  &-releases,
   &-characters,
   &-related {
     margin: -5px;
@@ -415,6 +468,18 @@
 
       &[href^="javascript"] {
         cursor: default;
+      }
+    }
+  }
+
+  &-releases {
+    font-size: 14px;
+
+    li {
+      width: percentage(1 / 2);
+
+      @media all and (max-width: $screen-xs-max) {
+        width: percentage(1);
       }
     }
   }
@@ -468,6 +533,52 @@
         width: percentage(1 / 3);
       }
     }
+  }
+}
+
+.GameRelease {
+  position: relative;
+  display: block;
+  height: 60px;
+  padding: 5px 5px 5px 61px;
+  color: #6d757a;
+  border-radius: 4px;
+  background-color: #f4f5f7;
+
+  &:not([href^="javascript"]):hover {
+    color: #0871ab;
+    background-color: #daeaff;
+  }
+
+  &[href^="javascript"] {
+    cursor: default;
+  }
+
+  &-cover {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    background: #daeaff none no-repeat 50% 50%;
+    background-size: cover;
+  }
+
+  &-title {
+    display: block;
+    max-width: 100%;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &-meta {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 400;
   }
 }
 

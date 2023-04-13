@@ -1,0 +1,208 @@
+{% assign isGame = false %}
+{% assign isAnime = false %}
+
+{% if include.collection == "animations" %}
+  {% assign entry = site.data[include.collection].items[include.entry] %}
+  {% assign isAnime = true %}
+  {% assign type_name = "动画" %}
+
+  {% if entry.type == "tva" %}
+    {% assign sub_type_name = "电视版" %}
+  {% elsif entry.type == "ova" %}
+    {% assign sub_type_name = "OVA" %}
+  {% elsif entry.type == "movie" %}
+    {% assign sub_type_name = "剧场版" %}
+  {% elsif entry.type == "web" %}
+    {% assign sub_type_name = "网络版" %}
+  {% endif %}
+{% elsif include.collection == "games" %}
+  {% assign entry = site.data[include.collection].items[include.entry] %}
+  {% assign isGame = true %}
+  {% assign type_name = "游戏" %}
+  {% assign platforms = site.data.games.platforms %}
+{% else %}
+  {% assign entry = site.data.knosys.entity[include.collection].items[include.entry] %}
+
+  {% case include.collection %}
+    {% when "novels" %}
+      {% assign type_name = "小说" %}
+    {% when "comics" %}
+      {% assign type_name = "漫画" %}
+  {% endcase %}
+{% endif %}
+
+{% contentfor page_title %}{{ entry.title }}{% endcontentfor %}
+
+{% contentfor post_banner %}
+  <div class="Page-banner">
+    <div style="background-image: url('{{ entry.cover | asset_path }}');"></div>
+    <figure class="sr-only">
+      <img src="{{ entry.cover | asset_path }}" alt="{{ page.title }}">
+      <figcaption>{{ page.title }}</figcaption>
+    </figure>
+  </div>
+{% endcontentfor %}
+
+{% contentfor post_meta %}
+  <div class="Entry-cover">
+    <img src="{{ entry.cover | asset_path }}">
+  </div>
+  <ul class="Entry-tags">
+    {% if isGame != true and type_name %}
+      <li><a href="javascript:void(0);">{{ type_name }}</a></li>
+    {% endif %}
+    {% if sub_type_name %}
+      <li><a href="javascript:void(0);">{{ sub_type_name }}</a></li>
+    {% endif %}
+    {% if entry.origin %}
+      <li><a href="javascript:void(0);">{{ site.data.origins[entry.origin].name }}改编</a></li>
+    {% endif %}
+    {% for genre in entry.genres %}
+      {% assign genre_data = site.data.genres[genre] %}
+      {% if genre_data %}
+        <li><a href="javascript:void(0);">{{ genre_data.name }}</a></li>
+      {% else %}
+        <li><a href="javascript:void(0);">{{ genre }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% for t in entry.tags %}
+      <li><a href="javascript:void(0);">{{ t }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if isGame %}
+  <p class="Entry-period">{{ entry.date | date: "%Y年%-m月%-d日" }} 首发</p>
+  {% else %}
+    {% assign date_parts = entry.date.start | split: "-" %}
+    {% if date_parts.size == 2 %}
+      {% assign start_date = entry.date.start | append: "-01" %}
+      {% assign date_format = "%Y年%-m月" %}
+    {% else %}
+      {% assign start_date = entry.date.start %}
+      {% assign date_format = "%Y年%-m月%-d日" %}
+    {% endif %}
+  <!-- <p class="Entry-period">{{ start_date | date: date_format }} {% if isAnime %}开播{% else %}开始连载{% endif %}<span>{% if entry.date.end %}已完结{% if entry.episodes %}（共 {{ entry.episodes.size }} 集）{% endif %}{% else %}连载中{% endif %}</span></p> -->
+  {% endif %}
+  {% if entry.intro %}
+    <div class="Entry-description">{{ entry.intro }}</div>
+  {% endif %}
+{% endcontentfor %}
+
+<div class="Entry-content">
+  {% assign trimmed = content | strip_html | strip_newlines %}
+  <section class="Entry-intro">{% if trimmed != empty %}{{ content }}{% else %}暂无介绍{% endif %}</section>
+  {% if isAnime %}
+    {% if entry.episodes %}
+      <section>
+        <h2>剧集</h2>
+        <ul class="Entry-episodes">
+          {% for episode in entry.episodes %}
+            <li><a href="/{{ include.collection }}/{{include.entry}}/episodes/{{ forloop.index }}/" title="{{ episode.title }}">{{ forloop.index }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+    {% if entry.characters %}
+      <section>
+        <h2>角色</h2>
+        <ul class="Entry-characters">
+          {% for c in entry.characters %}
+            {% assign character = site.data.characters[entry.series][c] %}
+            {% assign specific_character = site.data.characters[entry.series][include.entry][c] %}
+            {% assign character_name = character.name %}
+            {% assign character_avatar = specific_character.avatar | default: character.avatar %}
+            {% assign character_cv = specific_character.cv | default: character.cv %}
+            <li class="EntryChara">
+              {% if character_avatar %}
+                <a class="EntryChara-avatar" href="/characters/{{ c }}/" title="{{ character_name }}"><img src="{{ character_avatar | asset_path }}" alt="{{ character_name }}"></a>
+              {% else %}
+                <a class="EntryChara-avatar" href="/characters/{{ c }}/" title="{{ character_name }}"><img src="{{ 'unknown' | asset_path }}" alt="{{ character_name }}"></a>
+              {% endif %}
+              <a class="EntryChara-name" href="/characters/{{ c }}/" title="{{ character_name }}">{{ character_name }}</a>
+              <div>{% if character_cv %}{% for cv in character_cv %}{% assign p = site.data.people[cv] %}{% if p %}<a href="/people/{{ cv }}/" title="{{ p.name }}">{{ p.name }}</a>{% endif %}{% endfor %}
+                {% else %}<span>-</span>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  {% endif %}
+  {% if isGame %}
+    <section>
+      <h2>发行版本</h2>
+      <ul class="Entry-releases">
+        {% for release in entry.releases %}
+          {% assign release_platform = release[1].platform | downcase %}
+          <li><a class="GameRelease" href="/{{ include.collection }}/{{include.entry}}/releases/{{ release[0] }}/"><span class="GameRelease-cover" style="background-image: url('{{ release[1].cover | asset_path }}');"></span><strong class="GameRelease-title">{{ release[1].title }}</strong><span class="GameRelease-meta">{{ release[1].date | date: "%Y" }}·{{ release[1].region | upcase }} {{ platforms[release_platform].abbr | upcase }}</span></a></li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+  {% if entry.related %}
+    <section>
+      <h2>关联条目</h2>
+      <ul class="Entry-related">
+        {% for meta in entry.related %}
+          {% if meta.type == "animation" %}
+            {% assign meta_collection = "animations" %}
+          {% elsif meta.type == "comic" %}
+            {% assign meta_collection = "comics" %}
+          {% elsif meta.type == "game" %}
+            {% assign meta_collection = "games" %}
+          {% elsif meta.type == "novel" %}
+            {% assign meta_collection = "novels" %}
+          {% endif %}
+
+          {% if meta_collection == "animations" %}
+            {% assign related = site.data[meta_collection].items[meta.id] %}
+          {% else %}
+            {% assign related = site.data[meta_collection][meta.id] %}
+          {% endif %}
+          <li>
+            <a href="/{{ meta_collection }}/{{ meta.id }}/" title="{{ related.title }}">
+              <span style="background-image: url('{{ related.cover | asset_path }}');"></span>
+              <span>{{ related.title }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+</div>
+
+{% contentfor footer %}
+  {% if isAnime %}
+  <div class="Widget">
+    <h2>制作人员</h2>
+    <ul>
+      {% for staff in entry.staffs %}
+        {% assign pos = staff[0] %}
+        {% assign people = staff[1] %}
+        {% if site.data.staffs[pos] %}
+          {% assign pos = site.data.staffs[pos].name %}
+        {% endif %}
+        <li>{{ pos }}：{% for p in people %}{% if site.data.people[p] %}<a href="/people/{{ p }}/">{{ site.data.people[p].name }}</a>{% elsif site.data.groups[p] %}<a href="/groups/{{ p }}/">{{ site.data.groups[p].name }}</a>{% else %}<span>{{ p }}</span>{% endif %}{% if forloop.index != people.size %}、{% endif %}{% endfor %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% elsif isGame %}
+  <div class="Widget">
+    <h2>制作人员</h2>
+    <ul>
+      <li>开发商：{% for dev in entry.developers %}{% if site.data.groups[dev] %}<a href="/groups/{{ dev }}/">{{ site.data.groups[dev].name }}</a>{% else %}<span>{{ dev }}</span>{% endif %}{% if forloop.index != entry.developers.size %}、{% endif %}{% endfor %}</li>
+      <li>发行商：{% for pub in entry.publishers %}{% if site.data.groups[pub] %}<a href="/groups/{{ pub }}/">{{ site.data.groups[pub].name }}</a>{% else %}<span>{{ pub }}</span>{% endif %}{% if forloop.index != entry.publishers.size %}、{% endif %}{% endfor %}</li>
+    </ul>
+  </div>
+  {% elsif entry.overview %}
+  <div class="Widget">
+    <h2>作品信息</h2>
+    <ul>
+      {% for item in entry.overview %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  {% include ksio/widgets/share.html %}
+{% endcontentfor %}

@@ -87,7 +87,7 @@ defaults:
       path: ""
       type: knosys
     values:
-      layout: ksio/page
+      layout: page
   - scope:
       path: "cookbook"
       type: knosys
@@ -100,6 +100,24 @@ defaults:
         - ksio/initializers/time
         - ksio/initializers/lazyload
       repo: cookbook
+  - scope:
+      path: "entity/publications"
+      type: knosys
+    values:
+      layout: entry
+      css:
+        - pages/entry
+      body-class:
+        - Page--entry
+  - scope:
+      path: "entity/dramas"
+      type: knosys
+    values:
+      layout: entry
+      css:
+        - pages/entry
+      body-class:
+        - Page--entry
 
 
 
@@ -147,6 +165,9 @@ ksio:
   brand:
     color: "#0871ab"
   copyright:
+    owner:
+      text: 欧雷
+      url: https://linxoid.com/ourai/
     period:
       start: 2021
     provider: false
@@ -166,6 +187,8 @@ ksio:
       placement: right
   footer:
     links:
+      - text: 资料库
+        url: /
       - text: KnoSys
         url: https://knosysio.github.io/
   social:
