@@ -23,12 +23,27 @@
 {% else %}
   {% assign entry = site.data.knosys.entity[include.collection].items[include.entry] %}
 
-  {% case include.collection %}
-    {% when "novels" %}
-      {% assign type_name = "小说" %}
-    {% when "comics" %}
-      {% assign type_name = "漫画" %}
-  {% endcase %}
+  {% if include.collection == "publications" %}
+    {% if entry.type == "book" %}
+      {% assign type_name = "书籍" %}
+    {% endif %}
+  {% elsif include.collection == "dramas" %}
+    {% case entry.type %}
+      {% when "series" %}
+        {% assign type_name = "连续剧" %}
+      {% when "film" %}
+        {% assign type_name = "电影" %}
+      {% when "documentary" %}
+        {% assign type_name = "纪录片" %}
+    {% endcase %}
+  {% else %}
+    {% case include.collection %}
+      {% when "novels" %}
+        {% assign type_name = "小说" %}
+      {% when "comics" %}
+        {% assign type_name = "漫画" %}
+    {% endcase %}
+  {% endif %}
 {% endif %}
 
 {% contentfor page_title %}{{ entry.title }}{% endcontentfor %}
@@ -72,15 +87,32 @@
   {% if isGame %}
   <p class="Entry-period">{{ entry.date | date: "%Y年%-m月%-d日" }} 首发</p>
   {% else %}
-    {% assign date_parts = entry.date.start | split: "-" %}
+    {% assign _inc_start_date = entry.date.start | default: entry.date %}
+    {% assign date_parts = _inc_start_date | split: "-" %}
     {% if date_parts.size == 2 %}
-      {% assign start_date = entry.date.start | append: "-01" %}
-      {% assign date_format = "%Y年%-m月" %}
+      {% assign _inc_start_date = _inc_start_date | append: "-01" %}
+      {% assign _inc_date_format = "%Y年%-m月" %}
     {% else %}
-      {% assign start_date = entry.date.start %}
-      {% assign date_format = "%Y年%-m月%-d日" %}
+      {% assign _inc_date_format = "%Y年%-m月%-d日" %}
     {% endif %}
-  <!-- <p class="Entry-period">{{ start_date | date: date_format }} {% if isAnime %}开播{% else %}开始连载{% endif %}<span>{% if entry.date.end %}已完结{% if entry.episodes %}（共 {{ entry.episodes.size }} 集）{% endif %}{% else %}连载中{% endif %}</span></p> -->
+    {% assign _inc_continuous = false %}
+    {% if isAnime %}
+      {% assign _inc_start_text = "开播" %}
+      {% assign _inc_continuous = true %}
+    {% elsif include.collection == "publications" %}
+      {% assign _inc_start_text = "出版" %}
+    {% elsif include.collection == "dramas" %}
+      {% if entry.type == "film" %}
+        {% assign _inc_start_text = "上映" %}
+      {% else %}
+        {% assign _inc_start_text = "开播" %}
+        {% assign _inc_continuous = true %}
+      {% endif %}
+    {% else %}
+      {% assign _inc_start_text = "开始连载" %}
+      {% assign _inc_continuous = true %}
+    {% endif %}
+  <p class="Entry-period">{{ _inc_start_date | date: _inc_date_format }} {{ _inc_start_text }}<span>{% if _inc_continuous %}{% if entry.date.end %}已完结{% if entry.episodes %}（共 {{ entry.episodes.size }} 集）{% endif %}{% else %}连载中{% endif %}{% endif %}</span></p>
   {% endif %}
   {% if entry.intro %}
     <div class="Entry-description">{{ entry.intro }}</div>
@@ -88,8 +120,9 @@
 {% endcontentfor %}
 
 <div class="Entry-content">
-  {% assign trimmed = content | strip_html | strip_newlines %}
-  <section class="Entry-intro">{% if trimmed != empty %}{{ content }}{% else %}暂无介绍{% endif %}</section>
+  {% assign _inc_content = entry.content | default: "" | markdownify %}
+  {% assign trimmed = _inc_content | strip_html | strip_newlines %}
+  <section class="Entry-intro">{% if trimmed != empty %}{{ _inc_content }}{% else %}暂无介绍{% endif %}</section>
   {% if isAnime %}
     {% if entry.episodes %}
       <section>
