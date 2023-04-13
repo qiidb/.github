@@ -1,7 +1,7 @@
 title: QiiDB
-description: 基于文件存储的开放数据集合
+description: 任何人都可用的开放资料库
 keywords:
-tagline: 基于文件存储的开放数据集合
+tagline: 任何人都可用的开放资料库
 
 port: 10224
 baseurl: /zh

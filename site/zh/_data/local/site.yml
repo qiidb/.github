@@ -1,5 +1,7 @@
 header:
   navs:
+    - text: 探索
+      url: /explore/
 footer:
   links:
     - text: 关于

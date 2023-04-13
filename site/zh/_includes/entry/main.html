@@ -120,7 +120,7 @@
 {% endcontentfor %}
 
 <div class="Entry-content">
-  {% assign _inc_content = entry.content | default: "" | markdownify %}
+  {% assign _inc_content = entry.content | default: content | default: "" | markdownify %}
   {% assign trimmed = _inc_content | strip_html | strip_newlines %}
   <section class="Entry-intro">{% if trimmed != empty %}{{ _inc_content }}{% else %}暂无介绍{% endif %}</section>
   {% if isAnime %}

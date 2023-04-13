@@ -2,16 +2,95 @@
 layout: ksio/default
 css:
   - pages/index
+body-class:
+  - has-headerImage
 permalink: index.html
 ---
 
 {% include header.html %}
-<main class="Page-content" style="height: 100%;">
-  <div style="height: calc(100% - 271px); display: flex; align-items: center; justify-content: center; text-align: center;">
-    <div>
-      <h1 style="margin-top: 0; margin-bottom: .3em; font-size: 10rem; font-weight: 700;">{{ site.title }}</h1>
-      <p style="margin-bottom: 0; font-size: 2.5rem;">{{ site.description }}</p>
-    </div>
+<main class="Page-content">
+  {% assign banner_url = "local/pages/index/banner" | asset_path %}
+  <div class="Page-banner hidden-xs" style="background-image: url('{{ banner_url }}');">
+    <figure class="sr-only">
+      <img src="{{ banner_url }}" alt="Knowledge Graphs – Connecting the Dots in an Increasingly Complex World">
+      <figcaption><a href="https://semantic-web.com/knowledge-graphs-connecting-dots-increasingly-complex-world/" target="_blank" target="_blank" rel="nofollow">Knowledge Graphs – Connecting the Dots in an Increasingly Complex World</a></figcaption>
+    </figure>
+  </div>
+  <div class="container">
+    <article class="Page-main Article">
+      <header class="Article-header HomeHeader">
+        <div>
+          <h1 class="Article-title HomeHeader-title">{{ site.title }}</h1>
+          <p class="HomeHeader-slogan">{{ site.tagline }}</p>
+        </div>
+      </header>
+      <div class="Article-content">
+        <h2>在现实生活中探索</h2>
+        <p>肉身所在之处才是「真实」，是不容忽视的——</p>
+        <h3>徒步</h3>
+        <p>闲暇时光可亲自走走以下路线：</p>
+        {% assign limit_count = 12 %}
+        {% assign render_count = 0 %}
+        <div class="Grid is-active">
+        {% for id in site.data.knosys.entity.routes.sequence reversed %}
+          {% if render_count == limit_count %}
+            {% break %}
+          {% else %}
+            {% assign render_count = render_count | plus: 1 %}
+            {% assign route = site.data.knosys.entity.routes.items[id] %}
+            {% assign route_banner = "local/pages/index/route-card-banner" | asset_path %}
+            <div class="Grid-item">
+              <div class="Card Person">
+                <a class="Card-link Person-link" href="{{ '' | prepend: site.baseurl | prepend: site.url }}/routes/{{ id }}/">
+                  <div class="Person-header" style="background-image: url('{{ route_banner }}');">
+                    <div class="Person-brief">
+                      <h4 class="Person-name" data-toc-skip="true">{{ route.title }}</h4>
+                    </div>
+                  </div>
+                  <div class="Person-body">
+                    <div class="Person-description">{{ route.description }}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+        <h2>在虚拟世界中翱翔</h2>
+        <p>疲于应对「真实」中的琐碎之余，应当一时跳脱出去，神游一会儿——</p>
+        {% assign limit_count = 12 %}
+        {% assign entry_collections = "dramas publications" | split: " " %}
+        {% for collection in entry_collections %}
+          {% assign render_count = 0 %}
+          {% if collection == "dramas" %}
+            {% assign collection_title = "戏剧" %}
+            {% assign collection_brief = "各类影视作品" %}
+          {% elsif collection == "publications" %}
+            {% assign collection_title = "读物" %}
+            {% assign collection_brief = "各类出版物" %}
+          {% endif %}
+          <h3>{{ collection_title }}</h3>
+          <p>{{ collection_brief }}：</p>
+          <div class="EntryList">
+            <ul class="EntryList-content">
+              {% for id in site.data.knosys.entity[collection].sequence reversed %}
+                {% if render_count == limit_count %}
+                  {% break %}
+                {% else %}
+                  {% assign render_count = render_count | plus: 1 %}
+                  {% assign entry = site.data.knosys.entity[collection].items[id] %}
+                  <li class="EntryList-item">
+                    <a href="{{ '' | prepend: site.baseurl | prepend: site.url }}/{{ collection }}/{{ id }}/" style="background-image: url('{{ entry.cover | asset_path }}');">
+                      <div><span>{{ entry.title }}</span></div>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    </article>
   </div>
 </main>
 {% include footer.html %}
