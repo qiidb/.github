@@ -26,7 +26,7 @@
 {% if _inc_collection == "publications" or _inc_collection == "dramas" %}
   <li class="EntryItem EntryItem--cover{% if _inc_show_more %} is-more{% endif %}">
     <a href="{{ _inc_link }}" style="background-image: url('{{ _inc_entry.cover | asset_path }}');">
-      <div><span>{% if _inc_show_more %}{{ _inc_more_text }}{% else %}{{ _inc_title }}{% endif %}</span></div>
+      <div><span>{% if _inc_show_more %}{{ _inc_more_text }}{% else %}{{ _inc_title }}<br><span style="font-size: 12px;">{{ _inc_entry.date.start | default: _inc_entry.date | date: "%Y年%-m月%-d日" }}</span>{% endif %}</span></div>
     </a>
   </li>
 {% elsif _inc_collection == "routes" %}

@@ -33,13 +33,21 @@ function resolveItem(collectionName, baseName, { id, slug, content = '', ...othe
 function resolveCollection(items) {
   const resolved = {};
   const sequence = [];
+  const invalid = [];
 
   Object.entries(items).forEach(([_, item]) => {
     resolved[item.id] = item;
-    sequence.push({ id: item.id, date: item.date && item.date.start ? item.date.start : item.date });
+
+    const sortItem = { id: item.id, date: item.date && item.date.start ? item.date.start : item.date };
+
+    if (/^\d{4}(-\d{2}){2} \d{2}(:\d{2}){2}/i.test(sortItem.date)) {
+      sequence.push(sortItem);
+    } else {
+      invalid.push(sortItem);
+    }
   });
 
-  return { items: resolved, sequence: sortByDate(sequence).map(({ id }) => id) };
+  return { items: resolved, sequence: [...invalid.map(({ id }) => id), ...sortByDate(sequence).map(({ id }) => id)] };
 }
 
 function generateMarkdown(localFileCollectionDir, collectionName, _, item, __, cache) {
