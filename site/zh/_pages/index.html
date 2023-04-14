@@ -29,32 +29,26 @@ permalink: index.html
         <p>肉身所在之处才是「真实」，是不容忽视的——</p>
         <h3>徒步</h3>
         <p>闲暇时光可亲自走走以下路线：</p>
-        {% assign limit_count = 12 %}
+        {% assign limit_count = 8 %}
         {% assign render_count = 0 %}
-        <div class="Grid is-active">
-        {% for id in site.data.knosys.entity.routes.sequence reversed %}
-          {% if render_count == limit_count %}
-            {% break %}
-          {% else %}
-            {% assign render_count = render_count | plus: 1 %}
-            {% assign route = site.data.knosys.entity.routes.items[id] %}
-            {% assign route_banner = "local/pages/index/route-card-banner" | asset_path %}
-            <div class="Grid-item">
-              <div class="Card Person">
-                <a class="Card-link Person-link" href="{{ '' | prepend: site.baseurl | prepend: site.url }}/routes/{{ id }}/">
-                  <div class="Person-header" style="background-image: url('{{ route_banner }}');">
-                    <div class="Person-brief">
-                      <h4 class="Person-name" data-toc-skip="true">{{ route.title }}</h4>
-                    </div>
-                  </div>
-                  <div class="Person-body">
-                    <div class="Person-description">{{ route.description }}</div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          {% endif %}
-        {% endfor %}
+        <div class="EntryList">
+          <ul class="EntryList-content">
+            {% assign collection_data_store = site.data.knosys.entity.routes %}
+            {% for id in collection_data_store.sequence reversed %}
+              {% if render_count == limit_count %}
+                {% break %}
+              {% else %}
+                {% assign render_count = render_count | plus: 1 %}
+                {% assign route = collection_data_store.items[id] %}
+                {% if collection_data_store.sequence.size > limit_count and render_count == limit_count %}
+                  {% assign more_count = collection_data_store.sequence.size | minus: limit_count %}
+                {% else %}
+                  {% assign more_count = 0 %}
+                {% endif %}
+                {% include explore/item.html collection="routes" id=id entry=route more=more_count %}
+              {% endif %}
+            {% endfor %}
+          </ul>
         </div>
         <h2>在虚拟世界中翱翔</h2>
         <p>疲于应对「真实」中的琐碎之余，应当一时跳脱出去，神游一会儿——</p>
@@ -73,17 +67,19 @@ permalink: index.html
           <p>{{ collection_brief }}：</p>
           <div class="EntryList">
             <ul class="EntryList-content">
-              {% for id in site.data.knosys.entity[collection].sequence reversed %}
+              {% assign collection_data_store = site.data.knosys.entity[collection] %}
+              {% for id in collection_data_store.sequence reversed %}
                 {% if render_count == limit_count %}
                   {% break %}
                 {% else %}
                   {% assign render_count = render_count | plus: 1 %}
-                  {% assign entry = site.data.knosys.entity[collection].items[id] %}
-                  <li class="EntryList-item">
-                    <a href="{{ '' | prepend: site.baseurl | prepend: site.url }}/{{ collection }}/{{ id }}/" style="background-image: url('{{ entry.cover | asset_path }}');">
-                      <div><span>{{ entry.title }}</span></div>
-                    </a>
-                  </li>
+                  {% assign entry = collection_data_store.items[id] %}
+                  {% if collection_data_store.sequence.size > limit_count and render_count == limit_count %}
+                    {% assign more_count = collection_data_store.sequence.size | minus: limit_count %}
+                  {% else %}
+                    {% assign more_count = 0 %}
+                  {% endif %}
+                  {% include explore/item.html collection=collection id=id entry=entry more=more_count %}
                 {% endif %}
               {% endfor %}
             </ul>

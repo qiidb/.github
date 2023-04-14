@@ -1,8 +1,16 @@
 header:
   navs:
     - text: 探索
-      url: /explore/
+      children:
+        - text: 读物
+          url: /explore/publications/
+        - text: 戏剧
+          url: /explore/dramas/
+        - text: 路线
+          url: /explore/routes/
+    # - text: 关于
+    #   url: /about/
 footer:
   links:
-    - text: 关于
-      url: /about/
+    - text: 宅主义
+      url: https://otaku-ism.com/

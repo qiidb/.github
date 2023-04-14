@@ -65,6 +65,13 @@ defaults:
       type: pages
     values:
       layout: ksio/page
+  - scope:
+      path: "explore"
+      type: pages
+    values:
+      layout: explore
+      css:
+        - pages/explore
   # 文章
   - scope:
       path: ""

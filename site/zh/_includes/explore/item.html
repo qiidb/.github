@@ -1,0 +1,51 @@
+{% assign _inc_collection = include.collection %}
+{% assign _inc_site_base = "" | prepend: site.baseurl | prepend: site.url %}
+{% assign _inc_more_count = include.more | default: 0 %}
+{% assign _inc_more_unit = "个" %}
+{% assign _inc_entry = include.entry %}
+{% assign _inc_title = _inc_entry.title %}
+
+{% case _inc_collection %}
+  {% when "publications" %}
+    {% assign _inc_more_unit = "本" %}
+  {% when "dramas" %}
+    {% assign _inc_more_unit = "部" %}
+  {% when "routes" %}
+    {% assign _inc_more_unit = "条" %}
+{% endcase %}
+
+{% if _inc_more_count > 0 %}
+  {% assign _inc_show_more = true %}
+  {% assign _inc_link = _inc_site_base | append: "/explore/" | append: _inc_collection | append: "/" %}
+  {% capture _inc_more_text %}+{{ _inc_more_count | plus: 1 }} {{ _inc_more_unit }}{% endcapture %}
+{% else %}
+  {% assign _inc_show_more = false %}
+  {% assign _inc_link = _inc_site_base | append: "/" | append: _inc_collection | append: "/" | append: include.id | append: "/" %}
+{% endif %}
+
+{% if _inc_collection == "publications" or _inc_collection == "dramas" %}
+  <li class="EntryItem EntryItem--cover{% if _inc_show_more %} is-more{% endif %}">
+    <a href="{{ _inc_link }}" style="background-image: url('{{ _inc_entry.cover | asset_path }}');">
+      <div><span>{% if _inc_show_more %}{{ _inc_more_text }}{% else %}{{ _inc_title }}{% endif %}</span></div>
+    </a>
+  </li>
+{% elsif _inc_collection == "routes" %}
+  {% assign route_banner = _inc_entry.cover | default: "local/pages/explore/route-card-banner" | asset_path %}
+  <li class="EntryItem EntryItem--card{% if _inc_show_more %} is-more{% endif %}">
+    <div class="Card EntryCard">
+      <a class="Card-link EntryCard-link" href="{{ _inc_link }}">
+        <div class="EntryCard-header" style="background-image: url('{{ route_banner }}');">
+          <div class="EntryCard-brief">
+            <h4 class="EntryCard-name" data-toc-skip="true">{{ _inc_title }}</h4>
+          </div>
+        </div>
+        <div class="EntryCard-body">
+          <div class="EntryCard-description">{{ _inc_entry.description }}</div>
+        </div>
+        {% if _inc_show_more %}<div class="EntryCard-overlay"><span>{{ _inc_more_text }}</span></div>{% endif %}
+      </a>
+    </div>
+  </li>
+{% else %}
+  <li class="EntryItem{% if _inc_show_more %} is-more{% endif %}"><a href="{{ _inc_link }}">{{ _inc_title }}</a></li>
+{% endif %}

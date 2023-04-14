@@ -1,0 +1,61 @@
+---
+layout: page
+---
+
+{% assign url_parts = page.url | split: "/" %}
+{% assign entry_collection = url_parts[2] %}
+{% assign paginate_type = url_parts[3] | default: "all" %}
+{% assign page_number = url_parts[5] | default: 1 | plus: 0 %}
+{% assign data_store = site.data.knosys.entity[entry_collection] %}
+{% assign numerical_paginate_type = paginate_type | plus: 0 %}
+
+{% if numerical_paginate_type > 0 %}
+  {% assign yearly = true %}
+{% else %}
+  {% assign yearly = false %}
+{% endif %}
+
+<div class="EntryList">
+  <ul class="EntryList-content">
+    {% assign limit_count = 40 %}
+
+    {% if yearly %}
+      {% assign total_count = 0 %}
+      {% assign render_count = 0 %}
+      {% assign gap_count = page_number | minus: 1 | times: limit_count %}
+
+      {% for id in data_store.sequence reversed %}
+        {% assign entry = data_store.items[id] %}
+        {% assign numerical_item_year = entry.date.start | default: entry.date | date: "%Y" | plus: 0 %}
+
+        {% if render_count == limit_count or numerical_paginate_type > numerical_item_year %}
+          {% break %}
+        {% elsif numerical_item_year == numerical_paginate_type %}
+          {% assign total_count = total_count | plus: 1 %}
+          {% if total_count <= gap_count %}
+            {% continue %}
+          {% endif %}
+          {% assign render_count = render_count | plus: 1 %}
+          {% include explore/item.html collection=entry_collection id=id entry=entry %}
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      {% if limit_count and data_store.sequence.size > limit_count %}
+        {% assign gap_count = page_number | minus: 1 | times: limit_count %}
+        {% assign offset_index = data_store.sequence.size | minus: limit_count | minus: gap_count %}
+      {% else %}
+        {% assign offset_index = 0 %}
+      {% endif %}
+
+      {% for id in data_store.sequence reversed limit: limit_count offset: offset_index %}
+        {% assign entry = data_store.items[id] %}
+        {% include explore/item.html collection=entry_collection id=id entry=entry %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+  {% if yearly %}
+    {% include explore/pagination.html collection=entry_collection year=numerical_paginate_type limit=limit_count page=page_number %}
+  {% else %}
+    {% include explore/pagination.html collection=entry_collection limit=limit_count page=page_number %}
+  {% endif %}
+</div>

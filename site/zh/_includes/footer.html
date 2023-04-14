@@ -1,5 +1,5 @@
 <footer class="Page-footer Footer">
-  <div class="{% if site.data.local.repos[page.repo] %}container-fluid{% else %}container{% endif %}">
+  <div class="container">
     {% assign utm_params = "utm_source=" | append: site.ksio.meta.url | append: "&utm_medium=common-footer" %}
     <div class="Footer-description">
       {% if site.data.local.site.footer.links and site.data.local.site.footer.links.size > 0 %}

@@ -172,9 +172,25 @@ function createGenerator(collectionName, dataSourceRoot, localDataDir, localImag
   }
 }
 
+function generatePaginatedFiles(total, limit, dirPath, metadata, useDirPathAsPageDir) {
+  const pageDir = useDirPathAsPageDir ? dirPath : `${dirPath}/pages`;
+
+  let pageCount = Math.ceil(total / limit);
+
+  if (pageCount > 1) {
+    ensureDirExists(pageDir, !useDirPathAsPageDir);
+  }
+
+  while(pageCount > 1) {
+    saveData(`${pageDir}/${pageCount}.md`, `${['---', ...(Array.isArray(metadata) ? metadata : metadata(pageCount)), '---'].join('\n')}\n`);
+    pageCount--;
+  }
+}
+
 module.exports = {
   getSiteRoot,
   getLocalDataRoot,
   getLocalImageRoot,
   createGenerator,
+  generatePaginatedFiles,
 };

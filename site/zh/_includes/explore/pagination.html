@@ -1,0 +1,76 @@
+{% assign _inc_limit_count = include.limit %}
+{% assign _inc_page_number = include.page | default: 1 | plus: 0 %}
+{% assign _inc_entry_type = include.collection | default: "all" %}
+{% assign _inc_entry_year = include.year %}
+{% assign _inc_mode = include.mode | default: "pager" %}
+{% assign _inc_base_url = "/explore" | prepend: site.baseurl | prepend: site.url %}
+
+{% if _inc_entry_type != "all" %}
+  {% assign _inc_data_store = site.data.knosys.entity[_inc_entry_type] %}
+  {% assign _inc_base_url = _inc_base_url | append: "/" | append: _inc_entry_type %}
+{% endif %}
+
+{% if _inc_entry_year %}
+  {% assign _inc_homepage_path = _inc_base_url | append: "/" | append: _inc_entry_year %}
+  {% assign _inc_paginated_path = _inc_homepage_path | append: "/pages" %}
+  {% assign _inc_numerical_year = _inc_entry_year | plus: 0 %}
+  {% assign _inc_total_count = 0 %}
+
+  {% for moment in _inc_data_store.sequence reversed %}
+    {% assign _inc_numerical_item_year = moment.date | date: "%Y" | plus: 0 %}
+
+    {% if _inc_numerical_year > _inc_numerical_item_year %}
+      {% break %}
+    {% elsif _inc_numerical_item_year == _inc_numerical_year %}
+      {% assign _inc_total_count = _inc_total_count | plus: 1 %}
+    {% endif %}
+  {% endfor %}
+{% else %}
+  {% assign _inc_homepage_path = _inc_base_url %}
+  {% assign _inc_paginated_path = _inc_homepage_path | append: "/all/pages" %}
+  {% assign _inc_total_count = _inc_data_store.sequence.size %}
+{% endif %}
+
+{% if _inc_limit_count and _inc_total_count > _inc_limit_count %}
+  <nav>
+    <ul class="{{ _inc_mode }}">
+      {% if _inc_page_number > 2 %}
+        {% assign _inc_prev_page = _inc_page_number | minus: 1 %}
+        {% assign _inc_prev_path = _inc_paginated_path | append: "/" | append: _inc_prev_page | append: "/" %}
+      {% elsif _inc_page_number == 1 %}
+        {% assign _inc_prev_path = "javascript:void(0);" %}
+      {% else %}
+        {% assign _inc_prev_path = _inc_homepage_path | append: "/" %}
+      {% endif %}
+
+      <li{% if _inc_page_number == 1 %} class="disabled"{% endif %}>
+        <a href="{{ _inc_prev_path }}" aria-label="Previous">{% if _inc_mode == "pager" %}上一页{% else %}<span aria-hidden="true">&laquo;</span>{% endif %}</a>
+      </li>
+
+      {% assign _inc_page_count = _inc_total_count | divided_by: _inc_limit_count | ceil %}
+      {% assign _inc_moment_count = _inc_page_count | times: _inc_limit_count %}
+
+      {% if _inc_moment_count < _inc_total_count %}
+        {% assign _inc_page_count = _inc_page_count | plus: 1 %}
+      {% endif %}
+
+      {% if _inc_mode == "pagination" %}
+        <li{% if _inc_page_number == 1 %} class="active"{% endif %}><a href="{{ _inc_base_url }}/">1</a></li>
+        {% for _inc_current_number in (2.._inc_page_count) %}
+          <li{% if _inc_page_number == _inc_current_number %} class="active"{% endif %}><a href="{{ _inc_paginated_path }}/{{ _inc_current_number }}/">{{ _inc_current_number }}</a></li>
+        {% endfor %}
+      {% endif %}
+
+      {% if _inc_page_number == _inc_page_count %}
+        {% assign _inc_next_path = "javascript:void(0);" %}
+      {% else %}
+        {% assign _inc_next_page = _inc_page_number | plus: 1 %}
+        {% assign _inc_next_path = _inc_paginated_path | append: "/" | append: _inc_next_page | append: "/" %}
+      {% endif %}
+
+      <li{% if _inc_page_number == _inc_page_count %} class="disabled"{% endif %}>
+        <a href="{{ _inc_next_path }}" aria-label="Next">{% if _inc_mode == "pager" %}下一页{% else %}<span aria-hidden="true">&raquo;</span>{% endif %}</a>
+      </li>
+    </ul>
+  </nav>
+{% endif %}
