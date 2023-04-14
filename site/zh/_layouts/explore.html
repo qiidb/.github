@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: ksio/page
 ---
 
 {% assign url_parts = page.url | split: "/" %}
@@ -59,3 +59,7 @@ layout: page
     {% include explore/pagination.html collection=entry_collection limit=limit_count page=page_number %}
   {% endif %}
 </div>
+
+{% contentfor footer %}
+  {% include ksio/widgets/share.html %}
+{% endcontentfor %}

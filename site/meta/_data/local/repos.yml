@@ -1,6 +1,6 @@
 cookbook:
   name: 食用手册
-  base: /meta
+  base: /zh
   collection: guides
   toc:
     - slug: intro

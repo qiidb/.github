@@ -2,13 +2,11 @@ const { execute } = require('../helper');
 const { generateEntities } = require('./generator');
 
 module.exports = {
-  execute: (dataSource = 'entity') => {
-    if (dataSource === 'entity') {
+  execute: (site = 'default') => {
+    if (site === 'default') {
       return generateEntities();
     }
 
-    if (dataSource === 'meta') {
-      return execute('generate', 'default', dataSource);
-    }
+    return execute('generate', site);
   },
 };

@@ -1,10 +1,10 @@
-title: QiiDB
-description: 任何人都可用的开放资料库
+title: Meta-QiiDB
+description: 基于文件存储的开放数据集合
 keywords:
-tagline: 任何人都可用的开放资料库
+tagline: 基于文件存储的开放数据集合
 
 port: 10224
-baseurl: /zh
+baseurl: /meta
 
 collections:
   knosys:
@@ -66,37 +66,7 @@ defaults:
     values:
       layout: ksio/page
   - scope:
-      path: "explore"
-      type: pages
-    values:
-      layout: explore
-      css:
-        - pages/explore
-  # 文章
-  - scope:
       path: ""
-      type: posts
-    values:
-      layout: ksio/post
-      css:
-        - ksio/pages/post
-      js:
-        - ksio/initializers/time
-        - ksio/initializers/lazyload
-      author:
-        name: 欧雷
-        email: ourairyu@gmail.com
-        uri: https://ourai.ws/
-        slug: ourai
-        twitter: ntksol
-      siblings: true
-  - scope:
-      path: ""
-      type: knosys
-    values:
-      layout: ksio/page
-  - scope:
-      path: "cookbook"
       type: knosys
     values:
       layout: ksio/doc
@@ -107,24 +77,6 @@ defaults:
         - ksio/initializers/time
         - ksio/initializers/lazyload
       repo: cookbook
-  - scope:
-      path: "entity/publications"
-      type: knosys
-    values:
-      layout: entry
-      css:
-        - pages/entry
-      body-class:
-        - Page--entry
-  - scope:
-      path: "entity/dramas"
-      type: knosys
-    values:
-      layout: entry
-      css:
-        - pages/entry
-      body-class:
-        - Page--entry
 
 
 
@@ -168,9 +120,13 @@ github:
 
 ksio:
   meta:
-    url: https://qiidb.github.io/zh
+    url: https://qiidb.github.io/meta/zh
   brand:
     color: "#0871ab"
+    parent:
+      text: QiiDB
+      url: https://qiidb.github.io/
+    text: META
   copyright:
     owner:
       text: 欧雷
@@ -179,24 +135,24 @@ ksio:
       start: 2021
     provider: false
     fragments: >
-      <p>由 <a href="https://linxoid.com/ourai/?utm_source=https://qiidb.github.io/zh&utm_medium=common-footer" target="_blank" rel="external nofollow">欧雷</a> 用 ♥ 设计与开发</p>
+      <p>由 <a href="https://linxoid.com/ourai/?utm_source=https://qiidb.github.io/meta&utm_medium=common-footer" target="_blank" rel="external nofollow">欧雷</a> 用 ♥ 设计与开发</p>
   header:
     navs:
-      - text: 探索
+      - text: 指南
+        url: /zh/guides/intro/
+      - text: 关于
         children:
-          - text: 读物
-            url: /explore/publications/
-          - text: 戏剧
-            url: /explore/dramas/
-          - text: 路线
-            url: /explore/routes/
-      # - text: 关于
-      #   url: /about/
+          - text: 发起人
+            url: https://linxoid.com/ourai/
+          - text: GitHub
+            url: https://github.com/qiidb
     navbar:
       placement: right
   footer:
     links:
-      - text: 宅主义
-        url: https://otaku-ism.com/
+      - text: 资料库
+        url: https://qiidb.github.io/zh/
+      - text: KnoSys
+        url: https://knosysio.github.io/
   social:
     share: true

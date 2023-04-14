@@ -7,7 +7,7 @@ body-class:
 permalink: index.html
 ---
 
-{% include header.html %}
+{% include ksio/header.html %}
 <main class="Page-content">
   {% assign banner_url = "local/pages/index/banner" | asset_path %}
   <div class="Page-banner hidden-xs" style="background-image: url('{{ banner_url }}');">
@@ -89,4 +89,4 @@ permalink: index.html
     </article>
   </div>
 </main>
-{% include footer.html %}
+{% include ksio/footer.html %}

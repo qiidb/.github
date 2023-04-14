@@ -5,7 +5,6 @@
       "alias": "qiidb-zh",
       "source": "./site/zh",
       "data": {
-        "meta": "./manual",
         "entity": ""
       },
       "git": {
@@ -17,6 +16,14 @@
       "source": "./site/portal",
       "git": {
         "url": "https://github.com/qiidb/qiidb.github.io.git"
+      }
+    },
+    "meta": {
+      "alias": "qiidb-meta",
+      "source": "./site/meta",
+      "data": "./manual",
+      "git": {
+        "url": "https://github.com/qiidb/meta.git"
       }
     }
   }
