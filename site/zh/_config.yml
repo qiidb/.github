@@ -190,8 +190,8 @@ ksio:
             url: /explore/dramas/
           - text: 路线
             url: /explore/routes/
-      # - text: 关于
-      #   url: /about/
+      - text: 关于
+        url: /about/
     navbar:
       placement: right
   footer:

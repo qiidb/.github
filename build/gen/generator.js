@@ -17,8 +17,12 @@ const collectionMap = {
   routes: { title: '路线', paramPath: 'year/month/daytime' },
 };
 
+function resolveImageUrl(collectionName, params) {
+  return `knosys/entity/${collectionName}/${resolvePathFromParams(collectionMap[collectionName].paramPath || 'slug', params)}`;
+}
+
 function resolveImagePath(srcPath, params, collectionName) {
-  return `{{ 'knosys/entity/${collectionName}/${resolvePathFromParams(collectionMap[collectionName].paramPath || 'slug', params)}/${srcPath.replace(/.(jp(e)?g|png|gif|svg)/g, '')}' | asset_path }}`;
+  return `{{ '${resolveImageUrl(collectionName, params)}/${srcPath.replace(/.(jp(e)?g|png|gif|svg)/g, '')}' | asset_path }}`;
 }
 
 function resolveItem(collectionName, baseName, { id, slug, content = '', ...others }, params, cache) {
@@ -27,7 +31,13 @@ function resolveItem(collectionName, baseName, { id, slug, content = '', ...othe
     .replace(/\n\`{3}([^\n]+)/g, (_, lang) => `\n{% highlight ${lang} %}`)
     .replace(/\`{3}/g, '{% endhighlight %}');
 
-  return { id: id || slug || baseName, ...others };
+  const resolved = { id: id || slug || baseName, ...others };
+
+  if (collectionName === 'routes' && !resolved.cover) {
+    resolved.cover = `${resolveImageUrl(collectionName, params)}/route-map`;
+  }
+
+  return resolved;
 }
 
 function resolveCollection(items) {
@@ -59,17 +69,22 @@ function generateMarkdown(localFileCollectionDir, collectionName, _, item, __, c
 
   data.permalink = `/${collectionName}/${id}/`;
 
-  if (collectionName !== 'routes') {
-    delete data.date;
-  }
-
   const { content, total = 0 } = cache;
 
   delete cache.content;
 
   cache.total = total + 1;
 
-  saveData(`${localFileCollectionDir}/${id}.md`, `---\n${safeDump(data)}---\n\n${content || ''}\n`);
+  let resolvedContent = content || '';
+
+  if (collectionName === 'routes') {
+    data.banner = { url: item.cover };
+    resolvedContent += '\n\n{% contentfor footer %}\n  {% include ksio/widgets/share.html %}\n  {% include ksio/widgets/toc.html %}\n{% endcontentfor %}';
+  } else {
+    delete data.date;
+  }
+
+  saveData(`${localFileCollectionDir}/${id}.md`, `---\n${safeDump(data)}---\n\n${resolvedContent}\n`);
 }
 
 function paginate(collectionName, { total }) {
