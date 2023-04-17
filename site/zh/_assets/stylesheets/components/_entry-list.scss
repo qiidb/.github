@@ -148,7 +148,9 @@ $item-gap: 7.5px;
     margin: 25px 0 0;
     font-size: 18px !important;
     color: #333;
-    @include text-ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-body {

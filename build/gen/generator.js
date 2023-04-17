@@ -97,8 +97,12 @@ function paginate(collectionName, { total }) {
   generatePaginatedFiles(total, 40, paginationDir, pageNum => [...frontMatterFields, `permalink: /explore/${collectionName}/all/pages/${pageNum}/`]);
 }
 
-function generateEntities() {
-  Object.keys(collectionMap).forEach(collectionName => {
+function generateEntities(collection) {
+  (collection ? [collection] : Object.keys(collectionMap)).forEach(collectionName => {
+    if (!collectionMap[collection]) {
+      return;
+    }
+
     const localFileCollectionDir = `${getSiteRoot()}/_knosys/entity/${collectionName}`;
 
     ensureDirExists(localFileCollectionDir, true);
