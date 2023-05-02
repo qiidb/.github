@@ -99,7 +99,7 @@ function paginate(collectionName, { total }) {
 
 function generateEntities(collection) {
   (collection ? [collection] : Object.keys(collectionMap)).forEach(collectionName => {
-    if (!collectionMap[collection]) {
+    if (!collectionMap[collectionName]) {
       return;
     }
 
