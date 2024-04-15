@@ -4,18 +4,17 @@
   "description": "Free and open file-based database",
   "private": true,
   "main": "index.js",
-  "scripts": {
-    "copy": "node build site copy",
-    "build": "node build gen",
-    "clean": "rm -rf ./site/*/.asset-cache",
-    "start": "node build site serve",
-    "predeploy": "npm run clean",
-    "deploy": "node build site deploy"
-  },
-  "author": "Ourai Lin <ourairyu@gmail.com> (https://ourai.ws/)",
+  "author": "Ourai L. <ourairyu@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@ntks/toolbox": "0.0.6",
-    "js-yaml": "^3.14.0"
+    "ksio": "0.0.2"
+  },
+  "scripts": {
+    "copy": "node .knosys/scripts site copy",
+    "build": "node .knosys/scripts gen",
+    "clean": "rm -rf ./.knosys/sites/*/.asset-cache",
+    "start": "node .knosys/scripts site serve",
+    "predeploy": "npm run clean",
+    "deploy": "node .knosys/scripts site deploy"
   }
 }

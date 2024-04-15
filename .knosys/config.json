@@ -1,9 +1,9 @@
 {
-  "command": "./build",
+  "command": "./.knosys/scripts",
   "site": {
     "default": {
       "alias": "qiidb-zh",
-      "source": "./site/zh",
+      "source": "./.knosys/sites/zh",
       "data": {
         "entity": ""
       },
@@ -13,14 +13,14 @@
     },
     "portal": {
       "alias": "qiidb",
-      "source": "./site/portal",
+      "source": "./.knosys/sites/portal",
       "git": {
         "url": "https://github.com/qiidb/qiidb.github.io.git"
       }
     },
     "meta": {
       "alias": "qiidb-meta",
-      "source": "./site/meta",
+      "source": "./.knosys/sites/meta",
       "data": "./manual",
       "git": {
         "url": "https://github.com/qiidb/meta.git"

@@ -6,10 +6,10 @@ node_modules/
 .asset-cache/
 .sass-cache/
 
-site/*/*/ksio/
-site/*/_assets/*/ksio/
-site/*/_assets/*/knosys/
-site/*/_data/knosys/
-site/*/_knosys/
-site/*/_site/
-site/*/_pages/explore/*/
+.knosys/sites/*/*/ksio/
+.knosys/sites/*/_assets/*/ksio/
+.knosys/sites/*/_assets/*/knosys/
+.knosys/sites/*/_data/knosys/
+.knosys/sites/*/_knosys/
+.knosys/sites/*/_site/
+.knosys/sites/*/_pages/explore/*/
