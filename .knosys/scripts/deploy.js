@@ -13,7 +13,7 @@ module.exports = {
       if (existsSync(distPath)) {
         const cnameDomain = getConfig(`site.${site}.cname`);
 
-        generateJekyllSite(getConfig(`site.${site}.source`), distPath);
+        generateJekyllSite(resolvePath(resolveRootPath(), getConfig(`site.${site}.source`)), distPath);
 
         if (cnameDomain) {
           execSync(`rm -rf CNAME && echo ${cnameDomain} > CNAME`, { stdio: 'inherit', cwd: distPath });
