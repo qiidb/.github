@@ -2,12 +2,10 @@
   "name": "@qiidb/meta",
   "version": "0.0.0",
   "description": "Free and open file-based database",
-  "private": true,
-  "main": "index.js",
   "author": "Ourai L. <ourairyu@gmail.com>",
-  "license": "ISC",
+  "private": true,
   "devDependencies": {
-    "ksio": "0.0.2"
+    "ksio": "0.0.3"
   },
   "scripts": {
     "copy": "node .knosys/scripts site copy",

@@ -5,7 +5,7 @@
       "alias": "qiidb-zh",
       "source": "./.knosys/sites/zh",
       "data": {
-        "entity": ""
+        "entity": "../real-life/data"
       },
       "git": {
         "url": "https://github.com/qiidb/zh.git"
