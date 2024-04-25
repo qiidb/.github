@@ -1,19 +1,18 @@
-const { resolve: resolvePath } = require('path');
 const { existsSync } = require('fs');
 const { execSync } = require('child_process');
 const { generateJekyllSite } = require('@knosys/sdk/src/site/generators/jekyll');
 
-const { resolveRootPath, getConfig, execute } = require('./helper');
+const { resolvePathFromRootRelative, getConfig, execute } = require('./helper');
 
 module.exports = {
   execute: (site = 'default', distDir) => {
     if (distDir) {
-      const distPath = resolvePath(resolveRootPath(), distDir);
+      const distPath = resolvePathFromRootRelative(distDir);
 
       if (existsSync(distPath)) {
         const cnameDomain = getConfig(`site.${site}.cname`);
 
-        generateJekyllSite(resolvePath(resolveRootPath(), getConfig(`site.${site}.source`)), distPath);
+        generateJekyllSite(resolvePathFromRootRelative(getConfig(`site.${site}.source`)), distPath);
 
         if (cnameDomain) {
           execSync(`rm -rf CNAME && echo ${cnameDomain} > CNAME`, { stdio: 'inherit', cwd: distPath });

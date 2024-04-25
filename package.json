@@ -8,7 +8,7 @@
     "ksio": "0.0.3"
   },
   "scripts": {
-    "copy": "node .knosys/scripts site copy",
+    "copy": "node .knosys/scripts copy",
     "build": "node .knosys/scripts gen",
     "clean": "rm -rf ./.knosys/sites/*/.asset-cache",
     "start": "node .knosys/scripts site serve",
