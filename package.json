@@ -5,6 +5,9 @@
   "author": "Ourai L. <ourairyu@gmail.com>",
   "private": true,
   "devDependencies": {
+    "@knosys/sdk": "^0.0.3",
+    "@ntks/toolbox": "^0.0.6",
+    "js-yaml": "3.14.1",
     "ksio": "0.0.3"
   },
   "scripts": {
